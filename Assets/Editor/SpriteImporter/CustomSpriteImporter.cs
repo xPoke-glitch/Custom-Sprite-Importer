@@ -5,8 +5,13 @@ using UnityEditor;
 using UnityEditor.Presets;
 public class CustomSpriteImporter : AssetPostprocessor
 { 
+    private bool _isActive = true;
+
     void OnPreprocessAsset()
     {
+        if (!_isActive)
+            return;
+
         TextureImporter texImporter = assetImporter as TextureImporter;
 
         // Get the preset
