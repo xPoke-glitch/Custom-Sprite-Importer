@@ -1,2 +1,2 @@
-# Custom-Sprite-Importer-Tool
-Custom sprite importer tool
+# Custom-Sprite-Importer
+Custom sprite importer with preset settings
