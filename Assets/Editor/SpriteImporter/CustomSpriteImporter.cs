@@ -4,22 +4,29 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.Presets;
 public class CustomSpriteImporter : AssetPostprocessor
-{ 
-    private bool _isActive = true;
+{
+    private const string _settingsPath = "Assets/Editor/SpriteImporter/Settings/SpriteImporterSettings.asset";
 
     void OnPreprocessAsset()
     {
-        if (!_isActive)
+        SOImporterSettings settings = (SOImporterSettings) AssetDatabase.LoadAssetAtPath(_settingsPath, typeof(SOImporterSettings));
+        if(settings == null)
+        {
+            Debug.LogError("[CustomSpriteImporter OnPreprocessAsset] Importer Settings not found");
+            return;
+        }
+
+        if (!settings.IsActive)
             return;
 
         TextureImporter texImporter = assetImporter as TextureImporter;
 
         // Get the preset
-        Preset preset = (Preset) AssetDatabase.LoadAssetAtPath("Assets/Editor/SpriteImporter/Settings/TextureImporterPreset.preset", typeof(Preset));
+        Preset preset = (Preset) AssetDatabase.LoadAssetAtPath(settings.PresetPath, typeof(Preset));
 
         if(preset == null)
         {
-            Debug.LogError("[CustomSpriteImporter OnPreprocessAsset] Settings' preset not found");
+            Debug.LogError("[CustomSpriteImporter OnPreprocessAsset] Settings preset not found");
             return;
         }
 
